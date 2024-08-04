@@ -1,0 +1,69 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.card {
+  border: 1px solid red;
+  perspective: 1000px;
+  position: absolute;
+  box-shadow: 2px 2px 2px black; /* Para dar el efecto 3D */
+}
+
+.card-inner {
+  width: 300px;
+  height: 200px;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.card:hover .card-inner {
+}
+
+.card-front,
+.card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden; /* Oculta el reverso cuando está de espaldas */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  color: white;
+}
+
+.card-front {
+  background-color: #007bff;
+}
+
+.card-back {
+  background-color: #ff5722;
+  transform: rotateY(180deg); /* Muestra el reverso al voltear */
+}
+#boton {
+  position: absolute;
+  top: 300px;
+}
+main {
+  display: flex;
+  position: relative;
+}
+main .card:nth-child(2) {
+  top: 10px;
+  left: 10px;
+}
+main .card:nth-child(1) {
+  top: 20px;
+  left: 20px;
+}
