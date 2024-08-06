@@ -8,51 +8,57 @@
   </head>
   <body>
     <main>
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-front">
-            <h1>Dorso</h1>
-          </div>
-          <div class="card-back">
-            <h1>Reverso</h1>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-front">
-            <h1>Dorso</h1>
-          </div>
-          <div class="card-back">
-            <h1>Reverso</h1>
-            <p>Contenido del reverso</p>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-inner" id="carta">
-          <div class="card-front">
-            <h1>Dorso</h1>
-          </div>
-          <div class="card-back">
-            <h1>Pregunta</h1>
+      <div class="luz"></div>
 
-            <h2 class="q"></h2>
+      <div class="deck">
+        <div class="card">
+          <div class="card-front">
+            <img src="img/dorso.webp" />
           </div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-inner">
+        <div class="card">
           <div class="card-front">
-            <h1>Dorso</h1>
+            <img src="img/dorso.webp" />
+          </div>
+        </div>
+        <div class="card" id="carta">
+          <div class="card-front">
+            <img src="img/dorso.webp" />
           </div>
           <div class="card-back">
-            <h1>Reverso</h1>
-            <p>Contenido del reverso</p>
+            <img src="img/frente-2.webp" />
+
+            <p class="pregunta"></p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-front">
+            <img src="img/dorso.webp" />
           </div>
         </div>
       </div>
-      <button id="boton">Accion</button>
+      <div class="button-container">
+        <button id="boton">
+          Prueba
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-arrow-right"
+          >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </button>
+        <div class="boton-sombra"></div>
+      </div>
     </main>
     <script type="module" src="/main.js"></script>
   </body>
