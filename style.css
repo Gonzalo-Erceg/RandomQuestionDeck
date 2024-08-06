@@ -5,42 +5,70 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+body {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  margin: 0;
+  background-image: url("/img/fondo.jpg");
+  background-repeat: repeat;
+  background-size: 512px;
+}
+/* 
+
+  * Div con un dregradado que se superpone para dar ese efecto de luz
+*/
+.luz {
+  background: rgb(255, 255, 255);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(0, 0, 0, 0.25) 34%,
+    rgba(0, 0, 0, 0.3) 76%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  pointer-events: none;
+  width: 100%;
+  min-height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
 .card {
-  border: 1px solid red;
   perspective: 1000px;
   position: absolute;
-  box-shadow: 2px 2px 2px black; /* Para dar el efecto 3D */
-}
-
-.card-inner {
-  width: 300px;
-  height: 200px;
-  transition: transform 0.6s;
   transform-style: preserve-3d;
-  position: relative;
+  transform-origin: center;
+  width: 300px;
+  height: 450px;
+  aspect-ratio: 3/2;
+}
+.card img {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.card:hover .card-inner {
+.pregunta {
+  font-size: 26px;
 }
 
+/* * Establesco las dimenciones de ambas caras de las cartas  */
 .card-front,
 .card-back {
   width: 100%;
   height: 100%;
   position: absolute;
-  backface-visibility: hidden; /* Oculta el reverso cuando está de espaldas */
+  backface-visibility: hidden; /* *Oculta el reverso cuando está de espaldas */
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5em;
-  color: white;
 }
 
 .card-front {
@@ -49,21 +77,60 @@
 
 .card-back {
   background-color: #ff5722;
-  transform: rotateY(180deg); /* Muestra el reverso al voltear */
+  transform: rotateY(180deg); /* *Muestra el reverso al voltear */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #boton {
-  position: absolute;
-  top: 300px;
+  width: 270px;
+  height: 80px;
+  background-color: #d5c439;
+  border: none;
+  border-radius: 20px;
+
+  font-size: 26px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.button-container {
+  position: absolute;
+  bottom: calc(50% - 800px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+#boton:active {
+  animation-name: boton;
+  animation-duration: 0.3s;
+}
+
+.boton-sombra {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -100;
+  border-radius: 20px;
+  top: 10px;
+  background-color: #886610;
+}
+
+.pregunta {
+  transform: rotateZ(90deg);
+}
+
 main {
   display: flex;
   position: relative;
 }
-main .card:nth-child(2) {
+.deck .card:nth-child(2) {
+  top: 5px;
+  left: 5px;
+}
+.deck .card:nth-child(1) {
   top: 10px;
   left: 10px;
-}
-main .card:nth-child(1) {
-  top: 20px;
-  left: 20px;
 }
