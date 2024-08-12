@@ -1,23 +1,6 @@
-import "./style.css";
-import { gsap } from "gsap";
-const carta = document.querySelector("#carta");
-const q = document.querySelector(".pregunta");
-const boton = document.querySelector("#boton");
-
-// ** Uso todo esto para poder calcular y mover la carta justo al centro de la pagina (si quieren que lo explique en llamada lo hago)
-const viewportWidth = window.innerWidth;
-const viewportHeight = window.innerHeight;
-const elemWidth = carta.offsetWidth;
-const elemHeight = carta.offsetHeight;
-const centerX = (viewportWidth - elemWidth) / 2;
-const centerY = (viewportHeight - elemHeight) / 2;
-const rect = carta.getBoundingClientRect();
-const currentX = rect.left + window.scrollX;
-const currentY = rect.top + window.scrollY;
-const deltaX = centerX - currentX;
-const deltaY = centerY - currentY;
-let state = false;
-
+import * as THREE from "three";
+import gsap from "gsap";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 // * Array con las preguntas seleccionadas
 const quiz = [
   "¿Por que se sumaron al programa de mentores?",
@@ -53,47 +36,75 @@ const quiz = [
   "¿Qué técnicas utilizas para motivar a tus mentees durante los momentos difíciles?",
 ];
 
-// * Uso la biblioteca GSAP para la animacion de las cartas, es bastante simple de usar.
-// ? https://gsap.com
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
 let tl = gsap.timeline();
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-boton.addEventListener("click", () => {
-  tl.to("#boton", { y: 10, duration: 0.2 }).to("#boton", {
-    y: 0,
-    duration: 0.2,
-  });
-  if (state) {
-    let random = Math.random() * 30;
-    random = Math.floor(random);
-    tl.to("#carta", { x: 300, y: 150, rotateY: 0, duration: 0.5 }).to(
-      "#carta",
-      {
-        x: 0,
-        y: 0,
-        rotateZ: 0,
-        duration: 0.5,
-        onComplete: () => {
-          q.innerHTML = quiz[random];
-        },
-      }
-    );
+const loader = new GLTFLoader();
+const ambientLight = new THREE.AmbientLight(0x404040);
+ambientLight.intensity = 0.5;
+scene.add(ambientLight);
+let root;
+loader.load("/cartas.glb", (gltf) => {
+  root = gltf.scene;
+  const importedCamera = root.getObjectByName("Camera");
+  console.log(root);
+  scene.add(importedCamera);
+  console.log(camera);
+  camera.position.x = importedCamera.position.x + 1;
+  camera.position.y = importedCamera.position.y;
+  camera.position.z = importedCamera.position.z;
 
-    tl.to("#carta", {
-      x: `+=${deltaX}`,
-      y: `+=${deltaY}`,
-      rotateY: 180,
-      rotateZ: -90,
-      duration: 0.25,
-      delay: 1,
+  console.log(importedCamera);
+  camera.rotation.copy(importedCamera.rotation);
+  const spotLight = new THREE.SpotLight();
+  spotLight.position.y = 4;
+  spotLight.intensity = 15;
+  spotLight.angle = Math.PI / 4;
+  spotLight.distance = 10;
+  spotLight.penumbra = 1.0;
+  const spotLight_dos = new THREE.SpotLight();
+  spotLight_dos.position.y = 5;
+  spotLight_dos.position.z = 4;
+  spotLight_dos.position.x = 1.5;
+  spotLight_dos.intensity = 15;
+  spotLight_dos.angle = Math.PI / 4;
+  spotLight_dos.distance = 10;
+  spotLight_dos.penumbra = 1.0;
+
+  scene.add(spotLight);
+  scene.add(spotLight_dos);
+  scene.add(root);
+});
+function animate() {
+  requestAnimationFrame(animate);
+
+  renderer.render(scene, camera);
+}
+animate();
+let numero = 0;
+document.querySelector("#boton").addEventListener("click", () => {
+  numero++;
+  let carta = root.getObjectByName(`carta-${numero}`);
+  tl.to(carta.position, {
+    y: 3,
+    x: 1,
+    z: 3,
+    duration: 1,
+  })
+    .to(carta.rotation, {
+      y: Math.PI / 2,
+      z: Math.PI / 4,
+    })
+    .to(carta.rotation, {
+      x: -Math.PI,
     });
-  } else {
-    tl.to("#carta", {
-      x: `+=${deltaX}`,
-      y: `+=${deltaY}`,
-      rotateY: 180,
-      rotateZ: -90,
-      duration: 0.25,
-    });
-    state = true;
-  }
 });
