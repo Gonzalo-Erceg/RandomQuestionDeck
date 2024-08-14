@@ -1,7 +1,7 @@
 {
   "name": "mentor",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,9 +9,11 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "dat.gui": "^0.7.9",
     "vite": "^5.3.4"
   },
   "dependencies": {
+    "@fontsource/calistoga": "^5.0.21",
     "gsap": "^3.12.5",
     "three": "^0.167.1"
   }

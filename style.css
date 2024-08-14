@@ -2,6 +2,23 @@ body {
   padding: 0;
   margin: 0;
 }
-button {
+
+#enter {
+  left: 200px;
+}
+.main2 {
+  font-family: "calistoga", system-ui;
+  color: white;
+}
+.main2 {
   position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.title .C {
+  font-size: 48px;
 }
