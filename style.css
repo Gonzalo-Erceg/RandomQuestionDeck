@@ -10,6 +10,21 @@ body {
   font-family: "calistoga", system-ui;
   color: white;
 }
+.animacion {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  box-sizing: border-box;
+  padding-bottom: 200px;
+}
+
+#boton:disabled {
+  background-color: #352f44;
+  background-image: none;
+}
 .main2 {
   position: absolute;
   width: 100%;
@@ -18,7 +33,58 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: #000;
 }
 .title .C {
   font-size: 48px;
+}
+#enter {
+  transition: all 1s;
+  font-family: "calistoga", system-ui;
+  font-size: 16px;
+  color: #fff;
+  width: 150px;
+  height: 50px;
+  border: none;
+  outline: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background-color: #ff3cac;
+  background-image: linear-gradient(
+    225deg,
+    #ff3cac 0%,
+    #784ba0 50%,
+    #2b86c5 100%
+  );
+}
+#enter:hover {
+  background-color: #ff3cac;
+  background-image: linear-gradient(
+    45deg,
+    #ff3cac 0%,
+    #784ba0 50%,
+    #2b86c5 100%
+  );
+}
+#boton {
+  transition: 0;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  background-color: #800000;
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#boton:hover {
+  transform: scale(1.1);
+}
+.arrow {
+  pointer-events: none;
+  transition: 0.5s;
+}
+.left {
+  transform: rotateZ(-90deg);
 }

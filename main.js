@@ -9,6 +9,7 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { ColorCorrectionShader } from "three/examples/jsm/shaders/ColorCorrectionShader.js";
 import "@fontsource/calistoga";
+import { quiz } from "./utils/quiz";
 const gui = new GUI();
 // * Array con las preguntas seleccionadas
 
@@ -57,12 +58,12 @@ let lightsPositions = [
   { x: -4, z: -4 },
 ];
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true; // Añade una ligera amortiguación al movimiento
-controls.dampingFactor = 0.25; // Ajusta el factor de amortiguación
-controls.enableZoom = true; // Habilita el zoom
-controls.zoomSpeed = 1.0; // Ajusta la velocidad de zoom
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
+controls.enableZoom = true;
+controls.zoomSpeed = 1.0;
 
-loader.load("/cartas.glb", (gltf) => {
+loader.load("/cartas2.glb", (gltf) => {
   root = gltf.scene;
 
   camera.position.x = 0;
@@ -79,7 +80,10 @@ loader.load("/cartas.glb", (gltf) => {
 
   root.children.forEach((element) => {
     if (element.name.startsWith("carta")) {
-      let texto = CrearTexto(element.name);
+      let random = Math.random() * quiz.length;
+      let item = quiz.splice(Math.trunc(random), 1)[0];
+      let texto = root.getObjectByName(item);
+      texto.position.set(0, -0.15, 0);
       element.add(texto);
     }
   });
@@ -94,17 +98,26 @@ function animate() {
 animate();
 let isView = false;
 let numero = 1;
-document.querySelector("#boton").addEventListener("click", () => {
+document.querySelector("#boton").addEventListener("click", (event) => {
   let carta = root.getObjectByName(`carta-${numero}`);
-
+  document.querySelector(".arrow").classList.toggle("left");
+  event.target.disabled = true;
   if (!isView) {
-    EnterCard(carta);
+    EnterCard(carta, event.target);
   } else {
-    removeCard(carta);
+    removeCard(carta, event.target);
   }
 });
 
 document.querySelector("#enter").addEventListener("click", () => {
+  const doc = document.querySelector(".main2");
+  tl.to(doc, {
+    opacity: 0,
+    duration: 0.5,
+    onComplete: () => {
+      doc.remove();
+    },
+  });
   tl.to(lights[0], {
     intensity: 30,
     duration: 0.5,
@@ -151,7 +164,7 @@ document.querySelector("#enter").addEventListener("click", () => {
     );
 });
 
-function EnterCard(carta) {
+function EnterCard(carta, target) {
   tl.to(carta.position, {
     x: 0,
     z: 2,
@@ -174,49 +187,24 @@ function EnterCard(carta) {
       carta.rotation,
       {
         z: Math.PI * 0.75,
-        onComplete: () => (isView = true),
+        onComplete: () => {
+          isView = true;
+          target.disabled = false;
+        },
       },
       "<"
     );
 }
 
-function removeCard(carta) {
+function removeCard(carta, target) {
   tl.to(carta.position, {
     x: 10,
     onComplete: () => {
-      numero++, (isView = false);
+      numero++;
+      isView = false;
+      target.disabled = false;
     },
   });
-}
-
-function CrearTexto(texto) {
-  const canvas = document.createElement("canvas");
-  canvas.width = 256;
-  canvas.height = 128;
-  const context = canvas.getContext("2d");
-  context.font = "40px Arial";
-  context.fillStyle = "white";
-  context.textAlign = "center";
-  context.fillText(`${texto}`, canvas.width / 2, canvas.height / 2);
-
-  const texture = new THREE.CanvasTexture(canvas);
-
-  // Crear un material con la textura del texto
-  const textMaterial = new THREE.MeshBasicMaterial({
-    map: texture,
-    side: THREE.DoubleSide,
-    transparent: true,
-  });
-
-  // Crear un plano para el texto
-  const textGeometry = new THREE.PlaneGeometry(1, 0.5); // Ajusta el tamaño del plano
-  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-  textMesh.position.set(0, -0.1, 0);
-  textMesh.rotation.x = -Math.PI / 2;
-  textMesh.rotation.y = Math.PI;
-  textMesh.rotation.z = Math.PI / 2;
-
-  return textMesh;
 }
 
 function createLight(x, z) {
@@ -230,7 +218,3 @@ function createLight(x, z) {
   scene.add(spotLight);
   return spotLight;
 }
-
-document.querySelector("#apa").addEventListener("click", () => {
-  document.querySelector(".apa").setAttribute("hidden", false);
-});
