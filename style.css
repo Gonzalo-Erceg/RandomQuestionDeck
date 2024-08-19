@@ -39,7 +39,6 @@ body {
   font-size: 48px;
 }
 #enter {
-  transition: all 1s;
   font-family: "calistoga", system-ui;
   font-size: 16px;
   color: #fff;
@@ -49,37 +48,50 @@ body {
   outline: none;
   border-radius: 12px;
   cursor: pointer;
-  background-color: #ff3cac;
-  background-image: linear-gradient(
-    225deg,
-    #ff3cac 0%,
-    #784ba0 50%,
-    #2b86c5 100%
-  );
+
+  background-color: #000;
+  border: 2px solid rgba(238, 229, 126, 1);
 }
-#enter:hover {
-  background-color: #ff3cac;
-  background-image: linear-gradient(
-    45deg,
-    #ff3cac 0%,
-    #784ba0 50%,
-    #2b86c5 100%
-  );
+
+#info {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  outline: none;
+
+  border: none;
+  background-color: #000;
+  border: 2px solid rgba(238, 229, 126, 1);
+  cursor: pointer;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+#enter:hover,
+#info:hover {
+  box-shadow: 0 0 10px rgba(238, 229, 126, 1);
 }
 #boton {
   transition: 0;
   border-radius: 50%;
   border: none;
   outline: none;
-  background-color: #800000;
+  background-color: #f8f8f8;
+
   width: 70px;
   height: 70px;
   cursor: pointer;
   transition: 0.2s;
 }
+#boton svg {
+  fill: #6f6f6f;
+}
 
 #boton:hover {
-  transform: scale(1.1);
+  box-shadow: 0px 0px 10px #faf9f6;
 }
 .arrow {
   pointer-events: none;
@@ -87,4 +99,68 @@ body {
 }
 .left {
   transform: rotateZ(-90deg);
+}
+
+.dialog-info {
+  display: none;
+  position: absolute;
+  z-index: 30;
+  width: 400px;
+  height: 700px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f8f8f8;
+  margin: 0;
+
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-radius: 12px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif,
+    system-ui;
+}
+.dialog-info p {
+  font-size: 18px;
+}
+.dialog-info button,
+.dialog-info a {
+  outline: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  padding: 0;
+  border: 1px solid #000;
+}
+
+.fin {
+  font-family: "calistoga", system-ui;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  z-index: 30;
+  opacity: 0;
+  color: #f8f8f8;
+  animation: final 1s forwards;
+  font-size: 24px;
+}
+
+@keyframes final {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

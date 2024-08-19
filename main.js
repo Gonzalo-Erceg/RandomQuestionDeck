@@ -9,8 +9,8 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { ColorCorrectionShader } from "three/examples/jsm/shaders/ColorCorrectionShader.js";
 import "@fontsource/calistoga";
-import { quiz } from "./utils/quiz";
-const gui = new GUI();
+import { quiz, m } from "./utils/quiz";
+
 // * Array con las preguntas seleccionadas
 
 const scene = new THREE.Scene();
@@ -27,24 +27,14 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // GUI
-const cameraFolder = gui.addFolder("Cámara");
-cameraFolder.add(camera.position, "x", -10, 10);
-cameraFolder.add(camera.position, "y", -10, 10);
-cameraFolder.add(camera.position, "z", -10, 10);
+// const cameraFolder = gui.addFolder("Cámara");
+// cameraFolder.add(camera.position, "x", -10, 10);
+// cameraFolder.add(camera.position, "y", -10, 10);
+// cameraFolder.add(camera.position, "z", -10, 10);
 
-cameraFolder.open();
+// cameraFolder.open();
 // GUI
-const composer = new EffectComposer(renderer);
-composer.addPass(new RenderPass(scene, camera));
-const bloomPass = new UnrealBloomPass(
-  new THREE.Vector2(window.innerWidth, window.innerHeight),
-  1.5,
-  0.4,
-  0.85
-);
-composer.addPass(bloomPass);
-const colorCorrectionPass = new ShaderPass(ColorCorrectionShader);
-composer.addPass(colorCorrectionPass);
+
 const loader = new GLTFLoader();
 const ambientLight = new THREE.AmbientLight(0x404040);
 ambientLight.intensity = 0;
@@ -57,13 +47,13 @@ let lightsPositions = [
   { x: -4, z: 4 },
   { x: -4, z: -4 },
 ];
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.enableZoom = true;
-controls.zoomSpeed = 1.0;
+// const controls = new OrbitControls(camera, renderer.domElement);
+// controls.enableDamping = true;
+// controls.dampingFactor = 0.25;
+// controls.enableZoom = true;
+// controls.zoomSpeed = 1.0;
 
-loader.load("/cartas2.glb", (gltf) => {
+loader.load("/cartas.glb", (gltf) => {
   root = gltf.scene;
 
   camera.position.x = 0;
@@ -76,14 +66,18 @@ loader.load("/cartas2.glb", (gltf) => {
   });
   scene.add(root);
 
-  // GUi
-
   root.children.forEach((element) => {
-    if (element.name.startsWith("carta")) {
+    if (element.name.startsWith("carta") && quiz.length != 0 && m.length != 0) {
       let random = Math.random() * quiz.length;
       let item = quiz.splice(Math.trunc(random), 1)[0];
+      random = Math.random() * m.length;
+      let mentor = m.splice(Math.trunc(random), 1)[0];
+      let mentorName = root.getObjectByName(mentor);
+      console.log(mentorName);
       let texto = root.getObjectByName(item);
       texto.position.set(0, -0.15, 0);
+      mentorName.position.set(0.5, -0.15, 0);
+      element.add(mentorName);
       element.add(texto);
     }
   });
@@ -91,7 +85,7 @@ loader.load("/cartas2.glb", (gltf) => {
 });
 function animate() {
   requestAnimationFrame(animate);
-  controls.update();
+
   renderer.render(scene, camera);
 }
 
@@ -102,6 +96,11 @@ document.querySelector("#boton").addEventListener("click", (event) => {
   let carta = root.getObjectByName(`carta-${numero}`);
   document.querySelector(".arrow").classList.toggle("left");
   event.target.disabled = true;
+  if (numero == 9) {
+    final();
+    return;
+  }
+
   if (!isView) {
     EnterCard(carta, event.target);
   } else {
@@ -218,3 +217,29 @@ function createLight(x, z) {
   scene.add(spotLight);
   return spotLight;
 }
+
+document.querySelector("#close").addEventListener("click", () => {
+  const dialog = document.querySelector(".dialog-info");
+  dialog.style = "display:none";
+});
+document.querySelector(".open").addEventListener("click", () => {
+  const dialog = document.querySelector(".dialog-info");
+  dialog.style = "display:flex";
+});
+
+function final() {
+  const fin = document.createElement("div");
+  const message = document.createElement("h3");
+  message.innerHTML = "¡Muchas Gracias por su tiempo!";
+  fin.appendChild(message);
+  fin.classList.add("fin");
+  document.body.appendChild(fin);
+}
+
+document.addEventListener("keydown", (event) => {
+  event.preventDefault();
+  console.log(event.key);
+  if (event.ctrlKey && event.altKey && event.key === "0") {
+    final();
+  }
+});
