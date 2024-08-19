@@ -73,7 +73,7 @@ loader.load("/cartas.glb", (gltf) => {
       random = Math.random() * m.length;
       let mentor = m.splice(Math.trunc(random), 1)[0];
       let mentorName = root.getObjectByName(mentor);
-      console.log(mentorName);
+
       let texto = root.getObjectByName(item);
       texto.position.set(0, -0.15, 0);
       mentorName.position.set(0.5, -0.15, 0);
@@ -238,7 +238,7 @@ function final() {
 
 document.addEventListener("keydown", (event) => {
   event.preventDefault();
-  console.log(event.key);
+
   if (event.ctrlKey && event.altKey && event.key === "0") {
     final();
   }
