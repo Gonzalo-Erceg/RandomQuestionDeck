@@ -1,13 +1,7 @@
 import * as THREE from "three";
 import gsap from "gsap";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { GUI } from "dat.gui";
-import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
-import { ColorCorrectionShader } from "three/examples/jsm/shaders/ColorCorrectionShader.js";
+
 import "@fontsource/calistoga";
 import { quiz, m } from "./utils/quiz";
 
@@ -81,6 +75,9 @@ loader.load("/cartas.glb", (gltf) => {
       element.add(texto);
     }
   });
+  const enterBotton = document.querySelector("#enter");
+  enterBotton.removeAttribute("disabled");
+  enterBotton.innerHTML = "¡Comenzar!";
   //
 });
 function animate() {

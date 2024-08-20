@@ -124,6 +124,12 @@ body {
 .dialog-info p {
   font-size: 18px;
 }
+#enter:disabled {
+  border: 2px solid #fff;
+}
+#enter:disabled:hover {
+  box-shadow: none;
+}
 .dialog-info button,
 .dialog-info a {
   outline: none;
@@ -155,12 +161,23 @@ body {
   animation: final 1s forwards;
   font-size: 24px;
 }
-
+.loading {
+  animation: loading 0.7s infinite;
+}
 @keyframes final {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
   }
 }

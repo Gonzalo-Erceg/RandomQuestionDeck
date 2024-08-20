@@ -9,12 +9,12 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "dat.gui": "^0.7.9",
-    "vite": "^5.3.4"
+    "dat.gui": "0.7.9",
+    "vite": "5.3.4"
   },
   "dependencies": {
-    "@fontsource/calistoga": "^5.0.21",
-    "gsap": "^3.12.5",
-    "three": "^0.167.1"
+    "@fontsource/calistoga": "5.0.21",
+    "gsap": "3.12.5",
+    "three": "0.167.1"
   }
 }
