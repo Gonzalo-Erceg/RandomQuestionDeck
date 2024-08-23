@@ -1,12 +1,12 @@
 import * as THREE from "three";
 import gsap from "gsap";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import GUI from "dat.gui";
+
 import "@fontsource/calistoga";
 import { quiz, m } from "./utils/quiz";
 
 // * Array con las preguntas seleccionadas
-const gui = new GUI.GUI();
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -21,12 +21,12 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // GUI
-const cameraFolder = gui.addFolder("Cámara");
-cameraFolder.add(camera.position, "x", -10, 10);
-cameraFolder.add(camera.position, "y", -10, 10);
-cameraFolder.add(camera.position, "z", -10, 10);
+// const cameraFolder = gui.addFolder("Cámara");
+// cameraFolder.add(camera.position, "x", -10, 10);
+// cameraFolder.add(camera.position, "y", -10, 10);
+// cameraFolder.add(camera.position, "z", -10, 10);
 
-cameraFolder.open();
+// cameraFolder.open();
 // GUI
 
 const loader = new GLTFLoader();
